@@ -1,10 +1,10 @@
 import React from 'react';
 
-export const Element = () => {
+export const RoundedBoutton = ({handleClick, text, className}) => {
     return (
-        <div>
-            
-        </div>
+        <button className={`w-full py-3 bg-white text-black font-bold text-xl rounded-full ${className}`} onClick={handleClick}>
+            {text}
+        </button>
     );
 }
 

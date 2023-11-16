@@ -1,8 +1,9 @@
 'use client';
 import React, { useState } from 'react';
-import spotify_white_logo from '../../assets/images/spotify_white_logo.png';
 import { FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+
+import { RoundedBoutton } from '../utilities/Elements';
 
 const LoginForm = () => {
     const router = useRouter();
@@ -47,7 +48,8 @@ const LoginForm = () => {
             </div>
 
             <div className='mt-4'>
-                <button className='w-full py-3 bg-white text-black font-bold text-xl rounded-full' onClick={handleLogin}>LOG IN</button>
+                {/* <button className='w-full py-3 bg-white text-black font-bold text-xl rounded-full' onClick={handleLogin}>LOG IN</button> */}
+                <RoundedBoutton handleClick={handleLogin} text='LOG IN' />
 
                 <div className='flex items-center justify-center my-4'>
                     <hr className='w-1/3' />
@@ -55,7 +57,8 @@ const LoginForm = () => {
                     <hr className='w-1/3' />
                 </div>
 
-                <button className='w-full py-3 bg-blue-600 text-black font-bold text-xl rounded-full'>REGISTER</button>
+                {/* <button className='w-full py-3 bg-blue-600 text-black font-bold text-xl rounded-full'>REGISTER</button> */}
+                <RoundedBoutton className={'bg-blue-600'} handleClick={()=> router.push('/register')} text='REGISTER' />
             </div>
 
             
