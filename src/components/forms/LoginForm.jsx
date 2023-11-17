@@ -49,7 +49,7 @@ const LoginForm = () => {
 
             <div className='mt-4'>
                 {/* <button className='w-full py-3 bg-white text-black font-bold text-xl rounded-full' onClick={handleLogin}>LOG IN</button> */}
-                <RoundedBoutton handleClick={handleLogin} text='LOG IN' />
+                <RoundedBoutton className={'bg-white'} handleClick={handleLogin} text='LOG IN' />
 
                 <div className='flex items-center justify-center my-4'>
                     <hr className='w-1/3' />
