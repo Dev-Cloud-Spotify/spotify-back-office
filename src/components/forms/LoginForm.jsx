@@ -8,7 +8,7 @@ import { RoundedBoutton } from '../utilities/Elements';
 const LoginForm = () => {
     const router = useRouter();
     const [formData, setFormData] = useState({
-        email: '',
+        username: '',
         password: ''
     });
     const [showPassword, setShowPassword] = useState(false);
@@ -35,7 +35,7 @@ const LoginForm = () => {
 
             <div className='w-full flex flex-col gap-4 text-xl mt-4'>
                 <div className='relative items-center'>
-                    <input type="text" name='email' placeholder='Email' className='w-full px-4 py-2 bg-[#404040]' onChange={handleChange} />
+                    <input type="text" name='username' placeholder='username' className='w-full px-4 py-2 bg-[#404040]' onChange={handleChange} />
                     <FaEnvelope className='absolute top-1/2 transform -translate-y-1/2 right-3 text-2xl text-gray-400' />
                 </div>
                 <div className='relative items-center'>
@@ -58,7 +58,7 @@ const LoginForm = () => {
                 </div>
 
                 {/* <button className='w-full py-3 bg-blue-600 text-black font-bold text-xl rounded-full'>REGISTER</button> */}
-                <RoundedBoutton className={'bg-blue-600'} handleClick={()=> router.push('/register')} text='REGISTER' />
+                <RoundedBoutton className={'bg-blue-600'} disabled='true' handleClick={()=> router.push('/register')} text='REGISTER' />
             </div>
 
             
