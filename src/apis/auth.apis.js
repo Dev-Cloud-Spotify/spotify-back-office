@@ -4,8 +4,8 @@ const API_URL = `${process.env.API_URL}/api/users`;
 
 const authAPI = {
     
-    login: (email, password) => {
-        axios.post(`${API_URL}/login`, { email, password })
+    login: (username, password) => {
+        axios.post(`${API_URL}/login`, { username, password })
             .then(response => {
                 console.log(response);
             })
@@ -14,8 +14,8 @@ const authAPI = {
             });
     },
 
-    register: (email, password) => {
-        axios.post(`${API_URL}/register`, { email, password })
+    register: (username, password) => {
+        axios.post(`${API_URL}/register`, { username, password })
             .then(response => {
                 console.log(response);
             })
