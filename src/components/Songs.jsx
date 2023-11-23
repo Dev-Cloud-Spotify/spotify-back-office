@@ -27,10 +27,10 @@ const Songs = () => {
         <div className='flex flex-col gap-6 items-center justify-center '>
             <FaPlusCircle className='text-4xl text-green-500 cursor-pointer hover:scale-105 transition-all' />
             {songs.length === 0 && <h1 className='text-2xl font-bold'>No songs found</h1>}
-            <div className='w-full flex flex-wrap gap-4 justify-center'>
-                    {songs.map((song) => (
-                            <Song key={song._id} song={song} />
-                    ))}
+            <div className='w-full flex flex-col gap-4 justify-center'>
+                {songs.map((song) => (
+                    <Song key={song._id} song={song} />
+                ))}
             </div>
         </div>
     );

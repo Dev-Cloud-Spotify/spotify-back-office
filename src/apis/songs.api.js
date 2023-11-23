@@ -1,11 +1,12 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = `${process.env.API_URL}/api/songs`;
+
 
 const songsAPI = {
 
     getSongs: () => {
-        return axios.get(`${API_URL}/songs/getSongs`)
+        return axios.get(`${API_URL}/getSongs`)
         .then(response => response.data)
         .catch(error => {
             console.log(error);
@@ -13,7 +14,7 @@ const songsAPI = {
     },
     
     getNumberOfSongs: () => {
-        return axios.get(`${API_URL}/songs/countNumberOfSongs`)
+        return axios.get(`${API_URL}/countNumberOfSongs`)
         .then(response => response.data)
         .catch(error => {
             console.log(error);
@@ -21,7 +22,7 @@ const songsAPI = {
     },
 
     getTotalNumberOfListens: () => {
-        return axios.get(`${API_URL}/songs/getTotalNumberOfListens`)
+        return axios.get(`${API_URL}/getTotalNumberOfListens`)
         .then(response => response.data)
         .catch(error => {
             console.log(error);
