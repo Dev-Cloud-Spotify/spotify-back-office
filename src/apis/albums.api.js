@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = `${process.env.API_URL}/api/albums`;
 
 const albumsAPI = {
 
     getAlbums: () => {
-        return axios.get(`${API_URL}/albums/getAllAlbums`)
+        return axios.get(`${API_URL}/getAllAlbums`)
         .then(response => response.data)
         .catch(error => {
             console.log(error);
@@ -13,7 +13,7 @@ const albumsAPI = {
     },
     
     getNumberOfAlbums: () => {
-        return axios.get(`${API_URL}/albums/countNumberOfAlbums`)
+        return axios.get(`${API_URL}/countNumberOfAlbums`)
         .then(response => response.data)
         .catch(error => {
             console.log(error);
