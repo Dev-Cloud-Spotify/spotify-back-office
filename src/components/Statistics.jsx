@@ -1,4 +1,6 @@
 
+import albumsAPI from '@/apis/albums.api';
+import songsAPI from '@/apis/songs.api';
 import React, { useEffect, useState } from 'react';
 import { FcStatistics } from 'react-icons/fc';
 
@@ -8,17 +10,16 @@ const Statistics = () => {
     const [numberAlbums, setNumberAlbums] = useState(645460);
     const [numberListens, setNumberListens] = useState(798798650);
 
-    // useEffect(() => {
-    //     fetchNumberSongs();
-    //     fetchNumberAlbums();
-    //     fetchNumberListens();
-    // }, []);
+    useEffect(() => {
+        fetchNumberSongs();
+        fetchNumberAlbums();
+        fetchNumberListens();
+    }, []);
 
     const fetchNumberSongs = async () => {
-        songsAPI.getNumberOfSongs()
+        await songsAPI.getNumberOfSongs()
         .then((response) => {
-            console.log(response);
-            setNumberSongs(response.data);
+            setNumberSongs(response.numberOfSongs);
         })
         .catch((error) => {
             console.log(error);
@@ -26,10 +27,10 @@ const Statistics = () => {
     }
 
     const fetchNumberAlbums = async () => {
-        albumsAPI.getNumberOfAlbums()
+        await albumsAPI.getNumberOfAlbums()
         .then((response) => {
             console.log(response);
-            setNumberAlbums(response.data);
+            setNumberAlbums(response.numberOfAlbums);
         })
         .catch((error) => {
             console.log(error);
@@ -37,10 +38,9 @@ const Statistics = () => {
     }
 
     const fetchNumberListens = async () => {
-        songsAPI.getNumberOfListens()
+        await songsAPI.getTotalNumberOfListens()
         .then((response) => {
-            console.log(response);
-            setNumberListens(response.data);
+            setNumberListens(response.numberOfListens[0].total);
         })
         .catch((error) => {
             console.log(error);
