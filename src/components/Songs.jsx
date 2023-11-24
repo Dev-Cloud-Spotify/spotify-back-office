@@ -112,8 +112,8 @@ const Modal = ({ setShowModal }) => {
         console.log(song);
         await songsAPI.createSong(song)
         .then(response => {
-            console.log(response);
             setShowModal(false);
+            window.location.reload();
         })
         .catch(error => {
             console.log(error);
