@@ -12,7 +12,16 @@ const songsAPI = {
             console.log(error);
         });
     },
+
     
+    getSongsWithoutAlbum: () => {
+        return axios.get(`${API_URL}/getSongsWithoutAlbum`)
+        .then(response => response.data)
+        .catch(error => {
+            console.log(error);
+        });
+    },
+
     getNumberOfSongs: () => {
         return axios.get(`${API_URL}/countNumberOfSongs`)
         .then(response => response.data)

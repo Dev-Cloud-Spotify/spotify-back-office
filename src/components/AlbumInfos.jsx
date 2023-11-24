@@ -1,10 +1,21 @@
 import albumsAPI from '@/apis/albums.api';
+import songsAPI from '@/apis/songs.api';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaMinusCircle } from 'react-icons/fa';
+import { AlbumModalsEdit, AlbumModalsAddSongs } from './AlbumModals';
 
 const AlbumInfos = ({album, closeModal}) => {
 
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showAddSongsModal, setShowAddSongsModal] = useState(false);
+    
+    const handleEditModal = () => {
+        setShowEditModal(!showEditModal);
+    };
+    const handleAddSongsModal = () => {
+        setShowAddSongsModal(!showAddSongsModal);
+    };
     const [albumSongs, setAlbumSongs] = useState([]);
 
     useEffect(() => {
@@ -32,10 +43,13 @@ const AlbumInfos = ({album, closeModal}) => {
                         <h2 className='text-xl font-bold text-center'>{album.title}</h2>
                     </div>
                     <div className='flex flex-col gap-4'>
-                        <button className='bg-orange-400 py-2 px-3 rounded-md shadow-xl cursor-pointer hover:opacity-75'> Edit </button>
+                        <button className='bg-orange-400 py-2 px-3 rounded-md shadow-xl cursor-pointer hover:opacity-75' onClick={handleEditModal}> Edit </button>
                         <button className='bg-red-400 py-2 px-3 rounded-md shadow-xl cursor-pointer hover:opacity-75'> Delete </button>
-                        <button className='bg-green-400 py-2 px-3 rounded-md shadow-xl cursor-pointer hover:opacity-75'> Add songs </button>
+                        <button className='bg-green-400 py-2 px-3 rounded-md shadow-xl cursor-pointer hover:opacity-75' onClick={handleAddSongsModal}> Add songs </button>
                     </div>
+
+                    {showEditModal && <AlbumModalsEdit closeModal={handleEditModal} />}
+                    {showAddSongsModal && <AlbumModalsAddSongs closeModal={handleAddSongsModal} />}
                 </div>
 
                 <div className='w-5/6 flex justify-start mx-auto mt-8'>
