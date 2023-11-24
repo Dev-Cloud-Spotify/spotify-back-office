@@ -30,18 +30,26 @@ const songsAPI = {
     },
     deleteSongById: (id) => {
         return axios.delete(`${API_URL}/deleteSongById/${id}`)
-            .then(response => response.data)
-            .catch(error => {
-                console.log(error);
-            });
+        .then(response => response.data)
+        .catch(error => {
+            console.log(error);
+        });
     },
     updateSongById: (id, song) => {
         return axios.put(`${API_URL}/updateSongById/${id}`, song)
-            .then(response => response.data)
-            .catch(error => {
-                console.log(error);
-            });
+        .then(response => response.data)
+        .catch(error => {
+            console.log(error);
+        });
     },
+
+    createSong: (song) => {
+        return axios.post(`${API_URL}/createSong`, song)
+        .then(response => response.data)
+        .catch(error => {
+            console.log(error);
+        });
+    }
 
 }
 

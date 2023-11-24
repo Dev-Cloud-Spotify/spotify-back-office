@@ -90,8 +90,8 @@ const Modal = ({ setShowModal }) => {
                 <AiOutlineClose className='absolute top-2 right-2 text-2xl cursor-pointer text-black' onClick={() => setShowModal(false)} />
                 <h1 className='text-2xl font-bold'>New artist</h1>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-4 text-black'>
-                    <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='name' placeholder='Name' onChange={handleChange} />
-                    <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='lastName' placeholder='Last name' onChange={handleChange} />
+                    <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='name' placeholder='Name' value={artist.name} onChange={handleChange} />
+                    <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='lastName' placeholder='Last name' value={artist.lastName} onChange={handleChange} />
                     <button className='py-1 px-3 rounded-md shadow-lg bg-blue-500 text-white font-bold' type='submit'>Create</button>
                 </form>
             </div>
