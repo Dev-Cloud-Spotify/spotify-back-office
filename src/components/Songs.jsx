@@ -3,7 +3,7 @@ import artistsAPI from '@/apis/artists.api';
 import songsAPI from '@/apis/songs.api';
 import React, { Suspense, useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import { FaPlay, FaPlusCircle } from 'react-icons/fa';
+import { FaMinusCircle, FaPlay, FaPlusCircle, FaTrash } from 'react-icons/fa';
 
 const Songs = () => {
 
@@ -32,7 +32,7 @@ const Songs = () => {
     }
 
     return (
-        <div className='flex flex-col gap-6 items-center justify-center '>
+        <div className='flex flex-col gap-6 items-center justify-center w-full'>
             <FaPlusCircle className='text-4xl text-green-500 cursor-pointer hover:scale-105 transition-all' onClick={handleShowModal} />
             {songs.length === 0 && <h1 className='text-2xl font-bold'>No songs found</h1>}
             <div className='w-full flex flex-col gap-4 justify-center'>
@@ -51,11 +51,19 @@ const Song = ({ song }) => {
     }
 
     return (
-        <div className='flex items-center gap-3 hover:scale-105 transition-all cursor-pointer' onClick={showSong}>
-            <div className='py-1 px-3 rounded-md shadow-lg items-center flex gap-3'>
-                <FaPlay className='text-2xl text-blue-300' />
-                <span className='font-semibold text-lg text-blue-500'>{song.title} </span>
-                par <span className='uppercase font-bold text-lg'>{song.autor} </span>
+        <div className='flex gap-3 items-center justify-between cursor-pointer w-full'>
+            <div className='flex gap-3 items-center'>
+                <img className='rounded-md' width={50} src={song.coverImage} alt={song.title}  loading='lazy' />
+                <h2 className='text-lg font-bold'>{song.title}</h2> by <h2 className='text-sm font-bold'>{song.artist.name}</h2>
+
+                {/* read an audio file  */}
+                {/* <audio className='ml-8' controls>
+                    <source src={song.url} type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                </audio> */}
+            </div>
+            <div>
+                <FaTrash className='text-red-500 text-xl cursor-pointer hover:scale-105 transition-all' />
             </div>
         </div>
     );
@@ -89,6 +97,14 @@ const Modal = ({ setShowModal }) => {
             console.log(error);
         });
     }
+
+    // useEffect(() => {
+    //     if(song.artist){
+    //         setAlbums(song.artist.albums);
+    //     }
+    //     console.log(albums);
+
+    // }, [song.artist]);
 
     const fetchAlbums = async () => {
         await albumsAPI.getAlbums()
@@ -138,7 +154,7 @@ const Modal = ({ setShowModal }) => {
                     <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='audioFile' placeholder='Audio file' value={song.audioFile} onChange={handleChange} />
                     <select className='py-1 px-3 rounded-md shadow-lg' name='album' value={song.album} onChange={handleChange}>
                         <option value=''>Select an album</option>
-                        {albums.map((album) => (
+                        {albums.length>0 && albums?.map((album) => (
                             <option key={album._id} value={album._id}>{album.title}</option>
                         ))}
                     </select>
