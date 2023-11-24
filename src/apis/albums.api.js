@@ -5,7 +5,7 @@ const API_URL = `${process.env.API_URL}/api/albums`;
 const albumsAPI = {
 
     getAlbums: () => {
-        return axios.get(`${API_URL}/getAllAlbums`)
+        return axios.get(`${API_URL}/getAlbums`)
         .then(response => response.data)
         .catch(error => {
             console.log(error);
