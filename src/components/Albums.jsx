@@ -66,7 +66,7 @@ const Album = ({ album, setSelectedAlbum}) => {
     return (
         <>
         <div className='flex flex-col gap-1 items-center hover:scale-105 transition-all cursor-pointer' onClick={showAlbum}>
-            <img className='rounded-md' width={200} src={album.coverImage} alt={album.title}  loading='lazy' />
+            <img className='rounded-md object-cover w-48 h-48' width={200} src={album.coverImage} alt={album.title}  loading='lazy' />
             <h2 className='text-sm font-bold'>{album.title}</h2>
         </div>
         {showModal &&
