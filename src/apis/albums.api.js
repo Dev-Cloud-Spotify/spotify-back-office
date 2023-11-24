@@ -20,6 +20,14 @@ const albumsAPI = {
         });
     },
 
+    createAlbum: (album) => {
+        return axios.post(`${API_URL}/createAlbum`, album)
+        .then(response => response.data)
+        .catch(error => {
+            console.log(error);
+        });
+    },
+
    
 
 }
