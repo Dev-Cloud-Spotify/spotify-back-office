@@ -13,6 +13,14 @@ const artistsAPI = {
         });
     },
 
+    createArtist: (artist) => {
+        return axios.post(`${API_URL}/createArtist`, artist)
+        .then(response => response.data)
+        .catch(error => {
+            console.log(error);
+        });
+    },
+
    
 
 }
