@@ -27,7 +27,21 @@ const songsAPI = {
         .catch(error => {
             console.log(error);
         });
-    }
+    },
+    deleteSongById: (id) => {
+        return axios.delete(`${API_URL}/deleteSongById/${id}`)
+            .then(response => response.data)
+            .catch(error => {
+                console.log(error);
+            });
+    },
+    updateSongById: (id, song) => {
+        return axios.put(`${API_URL}/updateSongById/${id}`, song)
+            .then(response => response.data)
+            .catch(error => {
+                console.log(error);
+            });
+    },
 
 }
 
