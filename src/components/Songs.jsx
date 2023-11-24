@@ -25,7 +25,7 @@ const Songs = () => {
         });
     }
 
-    if (!songs.length) return <p>Loading...</p>
+    if (!songs?.length) return <p>Loading...</p>
 
     const handleShowModal = () => {
         setShowModal(true);
@@ -109,6 +109,7 @@ const Modal = ({ setShowModal }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        console.log(song);
         await songsAPI.createSong(song)
         .then(response => {
             console.log(response);
@@ -126,7 +127,7 @@ const Modal = ({ setShowModal }) => {
                 <h1 className='text-2xl font-bold mb-5'>Add a new song</h1>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-4 text-black'>
                     <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='title' placeholder='Title' value={song.title} onChange={handleChange} />
-                    <select className='py-1 px-3 rounded-md shadow-lg' name='album' value={song.artist} onChange={handleChange}>
+                    <select className='py-1 px-3 rounded-md shadow-lg' name='artist' value={song.artist} onChange={handleChange}>
                         <option value=''>Select an artist</option>
                         {artists.map((artist) => (
                             <option key={artist._id} value={artist._id}>{artist.name}</option>

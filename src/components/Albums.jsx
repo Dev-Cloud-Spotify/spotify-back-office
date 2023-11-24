@@ -25,7 +25,7 @@ const Albums = () => {
         });
     }
 
-    if (!albums.length) return <p>Loading...</p>
+    if (!albums?.length) return <p>Loading...</p>
 
 
     const handleShowModal = () => {
