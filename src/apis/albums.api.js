@@ -11,6 +11,14 @@ const albumsAPI = {
             console.log(error);
         });
     },
+
+    getAlbumSongs: (id) => {
+        return axios.get(`${API_URL}/getAlbumSongs/${id}`)
+        .then(response => response.data)
+        .catch(error => {
+            console.log(error);
+        });
+    },
     
     getNumberOfAlbums: () => {
         return axios.get(`${API_URL}/countNumberOfAlbums`)

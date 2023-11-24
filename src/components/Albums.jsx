@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import artistsAPI from '@/apis/artists.api';
+import AlbumInfos from './AlbumInfos';
 
 const Albums = () => {
 
@@ -49,19 +50,32 @@ const Albums = () => {
     );
 }
 
-const Album = ({ album, setSelectedAlbum, setIsModify, setShowModal}) => {
+const Album = ({ album, setSelectedAlbum}) => {
+
+    const [showModal, setShowModal] = useState(false);
+
     const showAlbum = () => {
-        console.log(album);
         setSelectedAlbum(album);
-        setIsModify(true);
         setShowModal(true);
     }
 
+    const closeModal = () => {
+        setShowModal(false);
+    }
+
     return (
+        <>
         <div className='flex flex-col gap-1 items-center hover:scale-105 transition-all cursor-pointer' onClick={showAlbum}>
             <img className='rounded-md' width={200} src={album.coverImage} alt={album.title}  loading='lazy' />
             <h2 className='text-sm font-bold'>{album.title}</h2>
         </div>
+        {showModal &&
+        <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center text-black'>
+         <AlbumInfos setShowModal={setShowModal} album={album} closeModal={closeModal} />
+        </div>
+
+         }
+        </>
     );
 }
 
