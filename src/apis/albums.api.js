@@ -27,7 +27,20 @@ const albumsAPI = {
             console.log(error);
         });
     },
-
+    updateAlbumById: (id, album) => {
+        return axios.put(`${API_URL}/updateAlbumById/${id}`, album)
+            .then(response => response.data)
+            .catch(error => {
+                console.log(error);
+            });
+    },
+    deleteAlbumById: (id) => {
+        return axios.delete(`${API_URL}/deleteAlbumById/${id}`)
+            .then(response => response.data)
+            .catch(error => {
+                console.log(error);
+            });
+    },
    
 
 }
