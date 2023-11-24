@@ -22,7 +22,7 @@ const Artists = () => {
         });
     }
 
-    if (!artists.length) return <p>Loading...</p>
+    if (!artists?.length) return <p>Loading...</p>
 
     const handleShowModal = () => {
         setShowModal(true);
