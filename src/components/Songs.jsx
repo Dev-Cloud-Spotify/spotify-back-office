@@ -6,6 +6,8 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { FaPause, FaPlay, FaPlusCircle, FaTrash } from 'react-icons/fa';
 import { DefaultLoader } from './utilities/Loaders';
 
+import { FixedSizeList } from 'react-window';
+
 const Songs = () => {
 
     const [songs, setSongs] = useState([]);
@@ -32,19 +34,33 @@ const Songs = () => {
         setShowModal(true);
     }
 
+    const Row = ({ index, style }) => (
+        <div style={style}>
+          <Song key={songs[index]._id} song={songs[index]} />
+        </div>
+      );
+
     return (
         <div className='flex flex-col gap-6 items-center justify-center w-full'>
             <FaPlusCircle className='text-4xl text-green-500 cursor-pointer hover:scale-105 transition-all' onClick={handleShowModal} />
             {songs.length === 0 && <h1 className='text-2xl font-bold'>No songs found</h1>}
             <div className='w-full flex flex-col gap-4 justify-center'>
-                {songs.map((song) => (
-                    <Song key={song._id} song={song} />
-                ))}
+                <FixedSizeList
+                    height={500}
+                    width={600}
+                    itemSize={80}
+                    itemCount={songs.length}
+                    className='w-full no-scrollbar'
+                >
+                    {Row}
+                </FixedSizeList>
             </div>
             {showModal && <Modal setShowModal={setShowModal} />}
         </div>
     );
 }
+
+
 
 const Song = ({ song }) => {
 
@@ -73,12 +89,6 @@ const Song = ({ song }) => {
                 {playing? <FaPause className='text-2xl text-blue-300' onClick={()=>setPlaying(false)} /> : <FaPlay className='text-2xl text-blue-300' onClick={()=>setPlaying(true)} />}
                 <img className='rounded-md' width={50} src={song.coverImage} alt={song.title}  loading='lazy' />
                 <h2 className='text-lg font-bold'>{song.title}</h2> by <h2 className='text-sm font-bold'>{song.artist?.name} {song.artist?.lastName} </h2>
-
-                {/* read an audio file  */}
-                {/* <audio className='ml-8' controls>
-                    <source src={song.url} type="audio/mpeg" />
-                    Your browser does not support the audio element.
-                </audio> */}
             </div>
             <div>
                 <FaTrash className='text-red-500 text-xl cursor-pointer hover:scale-105 transition-all' onClick={()=> setDeleteDialog(true)} />
@@ -178,9 +188,9 @@ const Modal = ({ setShowModal }) => {
             
             if (shouldReload) {
                 window.location.reload(); // Reload the page
+                setLoader(false);
             }
 
-            setLoader(false);
         });
     }
 
