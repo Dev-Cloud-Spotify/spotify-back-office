@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const Loader = () => {
+export const DefaultLoader = () => {
     return (
         <div>
-            
+            Loading ...
         </div>
     );
 }

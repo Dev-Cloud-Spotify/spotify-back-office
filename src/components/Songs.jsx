@@ -1,9 +1,10 @@
 import albumsAPI from '@/apis/albums.api';
 import artistsAPI from '@/apis/artists.api';
 import songsAPI from '@/apis/songs.api';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import { FaMinusCircle, FaPause, FaPlay, FaPlusCircle, FaTrash } from 'react-icons/fa';
+import { FaPause, FaPlay, FaPlusCircle, FaTrash } from 'react-icons/fa';
+import { DefaultLoader } from './utilities/Loaders';
 
 const Songs = () => {
 
@@ -54,7 +55,6 @@ const Song = ({ song }) => {
     }
 
     useEffect(() => {
-        console.log(playing);
         const audio = new Audio(song.url);
         if(playing) audio.play();
         else audio.pause();
@@ -62,7 +62,6 @@ const Song = ({ song }) => {
         return () => {
             audio.pause();
         }
-        
     }, [playing]);
 
     
@@ -98,12 +97,20 @@ const Modal = ({ setShowModal }) => {
         album: '',
     });
 
+    const defaultDate = new Date().toISOString().slice(0, 10);
+
     const [artists, setArtists] = useState([]);
     const [albums, setAlbums] = useState([]);
 
     const [listAlbums, setListAlbums] = useState([]);
 
+    const [loader, setLoader] = useState(false);
+
     useEffect(() => {
+        setSong({
+            ...song,
+            releaseDate: defaultDate,
+        });
         fetchArtists();
         fetchAlbums();
     }, []);
@@ -151,16 +158,28 @@ const Modal = ({ setShowModal }) => {
     }
 
     const handleSubmit = async (event) => {
+        setLoader(true);
         event.preventDefault();
         console.log(song);
         await songsAPI.createSong(song)
         .then(response => {
             if(response.error) return alert(response.error);
             setShowModal(false);
+            setLoader(false);
             window.location.reload();
         })
         .catch(error => {
             console.log(error);
+            setShowModal(false);
+           
+            // Display an alert with an OK button
+            const shouldReload = window.confirm("An error occurred. Do you want to reload the page?");
+            
+            if (shouldReload) {
+                window.location.reload(); // Reload the page
+            }
+
+            setLoader(false);
         });
     }
 
@@ -174,7 +193,7 @@ const Modal = ({ setShowModal }) => {
                     <select className='py-1 px-3 rounded-md shadow-lg' name='artist' value={song.artist._id} onChange={handleChange}>
                         <option value=''>Select an artist</option>
                         {artists.map((artist) => (
-                            <option key={artist._id} value={artist._id}>{artist.name}</option>
+                            <option key={artist._id} value={artist._id}>{artist.name} {artist.lastName}</option>
                         ))}
                     </select>
                     <input className='py-1 px-3 rounded-md shadow-lg' type='date' name='releaseDate' placeholder='Release date' value={song.releaseDate} onChange={handleChange} />
@@ -187,6 +206,8 @@ const Modal = ({ setShowModal }) => {
                         ))}
                     </select>
                     <button className='w-3/4 mx-auto py-1 px-3 rounded-md shadow-lg bg-green-500 text-white font-bold'>Add</button>
+
+                    {loader && <DefaultLoader />}
                 </form>
             </div>
         </div>
