@@ -3,7 +3,7 @@ import artistsAPI from '@/apis/artists.api';
 import songsAPI from '@/apis/songs.api';
 import React, { Suspense, useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import { FaMinusCircle, FaPlay, FaPlusCircle, FaTrash } from 'react-icons/fa';
+import { FaMinusCircle, FaPause, FaPlay, FaPlusCircle, FaTrash } from 'react-icons/fa';
 
 const Songs = () => {
 
@@ -46,15 +46,33 @@ const Songs = () => {
 }
 
 const Song = ({ song }) => {
+
+    const [playing, setPlaying] = useState(false);
+
     const showSong = () => {
         console.log(song);
     }
 
+    useEffect(() => {
+        console.log(playing);
+        const audio = new Audio(song.url);
+        if(playing) audio.play();
+        else audio.pause();
+
+        return () => {
+            audio.pause();
+        }
+        
+    }, [playing]);
+
+    
+
     return (
         <div className='flex gap-3 items-center justify-between cursor-pointer w-full'>
             <div className='flex gap-3 items-center'>
+                {playing? <FaPause className='text-2xl text-blue-300' onClick={()=>setPlaying(false)} /> : <FaPlay className='text-2xl text-blue-300' onClick={()=>setPlaying(true)} />}
                 <img className='rounded-md' width={50} src={song.coverImage} alt={song.title}  loading='lazy' />
-                <h2 className='text-lg font-bold'>{song.title}</h2> by <h2 className='text-sm font-bold'>{song.artist.name}</h2>
+                <h2 className='text-lg font-bold'>{song.title}</h2> by <h2 className='text-sm font-bold'>{song.artist?.name}</h2>
 
                 {/* read an audio file  */}
                 {/* <audio className='ml-8' controls>
@@ -83,6 +101,8 @@ const Modal = ({ setShowModal }) => {
     const [artists, setArtists] = useState([]);
     const [albums, setAlbums] = useState([]);
 
+    const [listAlbums, setListAlbums] = useState([]);
+
     useEffect(() => {
         fetchArtists();
         fetchAlbums();
@@ -98,17 +118,24 @@ const Modal = ({ setShowModal }) => {
         });
     }
 
-    // useEffect(() => {
-    //     if(song.artist){
-    //         setAlbums(song.artist.albums);
-    //     }
-    //     console.log(albums);
+    useEffect(() => {
+       console.log(song.artist)
 
-    // }, [song.artist]);
+       const alb = listAlbums?.filter((album) => album.artist._id === song.artist);
+        console.log(alb);
+        setAlbums(alb);
+
+    }, [song.artist]);
+
+    useEffect(() => {
+         console.log(song.album)
+    }, [song.album]);
+    
 
     const fetchAlbums = async () => {
         await albumsAPI.getAlbums()
         .then(response => {
+            setListAlbums(response);
             setAlbums(response);
         })
         .catch(error => {
@@ -128,6 +155,7 @@ const Modal = ({ setShowModal }) => {
         console.log(song);
         await songsAPI.createSong(song)
         .then(response => {
+            if(response.error) return alert(response.error);
             setShowModal(false);
             window.location.reload();
         })
@@ -143,7 +171,7 @@ const Modal = ({ setShowModal }) => {
                 <h1 className='text-2xl font-bold mb-5'>Add a new song</h1>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-4 text-black'>
                     <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='title' placeholder='Title' value={song.title} onChange={handleChange} />
-                    <select className='py-1 px-3 rounded-md shadow-lg' name='artist' value={song.artist} onChange={handleChange}>
+                    <select className='py-1 px-3 rounded-md shadow-lg' name='artist' value={song.artist._id} onChange={handleChange}>
                         <option value=''>Select an artist</option>
                         {artists.map((artist) => (
                             <option key={artist._id} value={artist._id}>{artist.name}</option>
@@ -152,7 +180,7 @@ const Modal = ({ setShowModal }) => {
                     <input className='py-1 px-3 rounded-md shadow-lg' type='date' name='releaseDate' placeholder='Release date' value={song.releaseDate} onChange={handleChange} />
                     <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='coverImage' placeholder='Cover image' value={song.coverImage} onChange={handleChange} />
                     <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='audioFile' placeholder='Audio file' value={song.audioFile} onChange={handleChange} />
-                    <select className='py-1 px-3 rounded-md shadow-lg' name='album' value={song.album} onChange={handleChange}>
+                    <select className='py-1 px-3 rounded-md shadow-lg' name='album' value={song.album._id} onChange={handleChange}>
                         <option value=''>Select an album</option>
                         {albums.length>0 && albums?.map((album) => (
                             <option key={album._id} value={album._id}>{album.title}</option>

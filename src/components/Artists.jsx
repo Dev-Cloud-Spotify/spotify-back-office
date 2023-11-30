@@ -47,10 +47,16 @@ const Artist = ({ artist }) => {
         console.log(artist);
     }
 
+    const getRandomImage = () => {
+        const random = Math.floor(Math.random() * 60);
+        return `https://i.pravatar.cc/45?img=${random}`;
+    }
+
     return (
-        <div className='flex items-center gap-3 hover:scale-105 transition-all cursor-pointer' onClick={showArtist}>
-            <FaArrowRight className='text-2xl text-blue-300' />
-            <div className='py-1 px-3 rounded-md shadow-lg bg-blue-500'>
+        <div className='flex items-center gap-4 hover:scale-105 transition-all cursor-pointer' onClick={showArtist}>
+            {/* <FaArrowRight className='text-2xl text-blue-300' /> */}
+            <img src={getRandomImage()} alt='' className='rounded-full ' />
+            <div className='py-1 px-3 rounded-md shadow-lg bg-blue-500 flex'>
                 <span className='font-semibold text-lg'>{artist.name} </span>
                 <span className='uppercase font-bold text-lg'>{artist.lastName} </span>
             </div>
