@@ -49,6 +49,7 @@ const Songs = () => {
 const Song = ({ song }) => {
 
     const [playing, setPlaying] = useState(false);
+    const [deleteDialog, setDeleteDialog] = useState(false);
 
     const showSong = () => {
         console.log(song);
@@ -71,7 +72,7 @@ const Song = ({ song }) => {
             <div className='flex gap-3 items-center'>
                 {playing? <FaPause className='text-2xl text-blue-300' onClick={()=>setPlaying(false)} /> : <FaPlay className='text-2xl text-blue-300' onClick={()=>setPlaying(true)} />}
                 <img className='rounded-md' width={50} src={song.coverImage} alt={song.title}  loading='lazy' />
-                <h2 className='text-lg font-bold'>{song.title}</h2> by <h2 className='text-sm font-bold'>{song.artist?.name}</h2>
+                <h2 className='text-lg font-bold'>{song.title}</h2> by <h2 className='text-sm font-bold'>{song.artist?.name} {song.artist?.lastName} </h2>
 
                 {/* read an audio file  */}
                 {/* <audio className='ml-8' controls>
@@ -80,7 +81,7 @@ const Song = ({ song }) => {
                 </audio> */}
             </div>
             <div>
-                <FaTrash className='text-red-500 text-xl cursor-pointer hover:scale-105 transition-all' />
+                <FaTrash className='text-red-500 text-xl cursor-pointer hover:scale-105 transition-all' onClick={()=> setDeleteDialog(true)} />
             </div>
         </div>
     );
