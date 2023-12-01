@@ -20,9 +20,20 @@ const artistsAPI = {
             console.log(error);
         });
     },
-
-   
-
+    deleteArtistById: (id) => {
+        return axios.delete(`${API_URL}/deleteArtistById/${id}`)
+        .then(response => response.data)
+        .catch(error => {
+            console.log(error);
+        });
+    },
+    updateArtistById: (id, artist) => {
+        return axios.put(`${API_URL}/updateArtistById/${id}`, artist)
+        .then(response => response.data)
+        .catch(error => {
+            console.log(error);
+        });
+    },
 }
 
 export default artistsAPI;

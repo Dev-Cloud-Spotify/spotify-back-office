@@ -15,7 +15,16 @@ const AlbumInfos = ({album, closeModal}) => {
     };
     const handleAddSongsModal = () => {
         setShowAddSongsModal(!showAddSongsModal);
+        fetchAlbumSongs();
     };
+
+    const handleDeleteModal = () => {
+        // Appelez la fonction pour supprimer l'album
+        const shouldDelete = window.confirm('Are you sure you want to delete this album?');
+        if (shouldDelete){
+            deleteAlbumById();
+        }
+      };
     const [albumSongs, setAlbumSongs] = useState([]);
 
     useEffect(() => {
@@ -32,7 +41,17 @@ const AlbumInfos = ({album, closeModal}) => {
             console.log(error);
         });
     }
-
+    const deleteAlbumById = async () => {
+        await albumsAPI.deleteAlbumById(album._id)
+        .then(response => {
+            console.log(response)
+            closeModal();
+            window.location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
     return (
         <div className='bg-gray-300 flex justify-center rounded-md shadow-xl'>
             <div className='w-full p-8 relative'>
@@ -43,20 +62,25 @@ const AlbumInfos = ({album, closeModal}) => {
                         <h2 className='text-xl font-bold text-center'>{album.title}</h2>
                     </div>
                     <div className='flex flex-col gap-4'>
-                        <button className='bg-orange-400 py-2 px-3 rounded-md shadow-xl cursor-pointer hover:opacity-75' onClick={handleEditModal}> Edit </button>
-                        <button className='bg-red-400 py-2 px-3 rounded-md shadow-xl cursor-pointer hover:opacity-75'> Delete </button>
-                        <button className='bg-green-400 py-2 px-3 rounded-md shadow-xl cursor-pointer hover:opacity-75' onClick={handleAddSongsModal}> Add songs </button>
-                    </div>
+        {/* Condition pour afficher le bouton Edit */}
+        {!showAddSongsModal && (
+            <>
+                <button className='bg-orange-400 py-2 px-3 rounded-md shadow-xl cursor-pointer hover:opacity-75' onClick={handleEditModal}> Edit </button>
+                <button className='bg-red-400 py-2 px-3 rounded-md shadow-xl cursor-pointer hover:opacity-75' onClick={handleDeleteModal}> Delete </button>
+            </>
+        )}
+        <button className='bg-green-400 py-2 px-3 rounded-md shadow-xl cursor-pointer hover:opacity-75' onClick={handleAddSongsModal}> Add songs </button>
+                     </div>
 
                     {showEditModal && <AlbumModalsEdit closeModal={handleEditModal} />}
-                    {showAddSongsModal && <AlbumModalsAddSongs closeModal={handleAddSongsModal} />}
+                    {showAddSongsModal && <AlbumModalsAddSongs albumId={album._id} closeModal={handleAddSongsModal}/>}
                 </div>
 
                 <div className='w-5/6 flex justify-start mx-auto mt-8'>
                     {albumSongs?.length === 0 && <h1 className='text-2xl font-bold text-center w-full'>No songs found</h1>}
                     <div className='w-full flex flex-wrap gap-4 justify-start'>
                         {albumSongs.length >0 && albumSongs?.map((song) => (
-                            <Song key={song._id} song={song} />
+                            <Song key={song._id} song={song} fetchAlbumSongs={fetchAlbumSongs} />
                         ))}
                     </div>
                 </div>
@@ -65,8 +89,27 @@ const AlbumInfos = ({album, closeModal}) => {
     );
 }
 
-const Song = ({song}) => {
+const Song = ({song, fetchAlbumSongs}) => {
+    const updateSongAlbumToNull = async (songId) => {
 
+        let newSong = {
+            title: song.title,
+            coverImage: song.coverImage,
+            audioFile: song.audioFile,
+            album: null
+        }
+
+       songsAPI.updateSongById(songId, newSong)
+         .then(response => {
+              console.log(response);
+              fetchAlbumSongs();
+         })
+            .catch(error => {
+                console.log(error);
+            });
+      
+      };
+    
     return (
         <div className='flex gap-3 items-center justify-between cursor-pointer w-full'>
             <div className='flex gap-3 items-center'>
@@ -74,7 +117,7 @@ const Song = ({song}) => {
                 <h2 className='text-sm font-bold'>{song.title}</h2>
             </div>
             <div>
-                <FaMinusCircle className='text-red-500 text-xl cursor-pointer hover:scale-105 transition-all' />
+                <FaMinusCircle className='text-red-500 text-xl cursor-pointer hover:scale-105 transition-all' onClick={() => updateSongAlbumToNull(song._id)} />
             </div>
         </div>
     );
