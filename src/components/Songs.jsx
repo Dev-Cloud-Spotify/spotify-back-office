@@ -72,6 +72,8 @@ const Song = ({ song }) => {
     }
 
     useEffect(() => {
+        if(!playing) return;
+
         const audio = new Audio(song.url);
         if(playing) audio.play();
         else audio.pause();
@@ -104,7 +106,7 @@ const Modal = ({ setShowModal }) => {
         // duration: '',
         releaseDate: '',
         coverImage: '',
-        audioFile: '',
+        audioFile: null,
         album: '',
     });
 
@@ -138,9 +140,7 @@ const Modal = ({ setShowModal }) => {
 
     useEffect(() => {
        console.log(song.artist)
-
        const alb = listAlbums?.filter((album) => album.artist._id === song.artist);
-        console.log(alb);
         setAlbums(alb);
 
     }, [song.artist]);
@@ -168,11 +168,26 @@ const Modal = ({ setShowModal }) => {
         });
     }
 
+    const handleAudioChange = (event) => {
+        setSong({
+            ...song,
+            audioFile: event.target.files[0],
+        });
+    }
+
     const handleSubmit = async (event) => {
         setLoader(true);
         event.preventDefault();
+        const formData = new FormData();
+        formData.append('title', song.title);
+        formData.append('artist', song.artist);
+        formData.append('releaseDate', song.releaseDate);
+        formData.append('coverImage', song.coverImage);
+        formData.append('audioFile', song.audioFile);
+        formData.append('album', song.album);
+
         console.log(song);
-        await songsAPI.createSong(song)
+        await songsAPI.createSong(formData)
         .then(response => {
             if(response.error) return alert(response.error);
             setShowModal(false);
@@ -181,7 +196,6 @@ const Modal = ({ setShowModal }) => {
         })
         .catch(error => {
             console.log(error);
-            setShowModal(false);
            
             // Display an alert with an OK button
             const shouldReload = window.confirm("An error occurred. Do you want to reload the page?");
@@ -189,6 +203,8 @@ const Modal = ({ setShowModal }) => {
             if (shouldReload) {
                 window.location.reload(); // Reload the page
                 setLoader(false);
+                setShowModal(false);
+                setLoading(false);
             }
 
         });
@@ -209,7 +225,8 @@ const Modal = ({ setShowModal }) => {
                     </select>
                     <input className='py-1 px-3 rounded-md shadow-lg' type='date' name='releaseDate' placeholder='Release date' value={song.releaseDate} onChange={handleChange} />
                     <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='coverImage' placeholder='Cover image' value={song.coverImage} onChange={handleChange} />
-                    <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='audioFile' placeholder='Audio file' value={song.audioFile} onChange={handleChange} />
+                    <input className='py-1 px-3 rounded-md shadow-lg' type='file' name='audioFile' placeholder='Audio file' onChange={handleAudioChange} />
+                    {/* <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='audioFile' placeholder='Audio file' value={song.audioFile} onChange={handleChange} /> */}
                     <select className='py-1 px-3 rounded-md shadow-lg' name='album' value={song.album._id} onChange={handleChange}>
                         <option value=''>Select an album</option>
                         {albums.length>0 && albums?.map((album) => (
