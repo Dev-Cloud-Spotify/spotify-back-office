@@ -44,10 +44,10 @@ const albumsAPI = {
     },
     deleteAlbumById: (id) => {
         return axios.delete(`${API_URL}/deleteAlbumById/${id}`)
-            .then(response => response.data)
-            .catch(error => {
-                console.log(error);
-            });
+        .then(response => response.data)
+        .catch(error => {
+            console.log(error);
+        });
     },
    
 
