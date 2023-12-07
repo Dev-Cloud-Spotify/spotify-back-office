@@ -42,6 +42,20 @@ const playlistsAPI = {
                 console.log(error);
             });
         },
+        addSongToPlaylist: (id, song) => {
+            return axios.put(`${API_URL}/addSongToPlaylist/${id}`, {songId: song})
+            .then(response => response.data)
+            .catch(error => {
+                console.log(error);
+            });
+        },
+        removeSongFromPlaylist: (id, song) => {
+            return axios.put(`${API_URL}/removeSongFromPlaylist/${id}`, {songId: song})
+            .then(response => response.data)
+            .catch(error => {
+                console.log(error);
+            });
+        },
     
     
 }
