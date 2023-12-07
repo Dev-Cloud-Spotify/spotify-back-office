@@ -70,7 +70,19 @@ const Song = ({ song }) => {
     const showSong = () => {
         console.log(song);
     }
+    const deleteSongById = async (songId) => {
+        console.log("Songid :",songId);
+        await songsAPI.deleteSongById(songId)
+        .then(response => {
+            console.log(response);
+            window.location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+        });
 
+      
+      };
     useEffect(() => {
         if(!playing) return;
 
@@ -93,7 +105,7 @@ const Song = ({ song }) => {
                 <h2 className='text-lg font-bold'>{song.title}</h2> by <h2 className='text-sm font-bold'>{song.artist?.name} {song.artist?.lastName} </h2>
             </div>
             <div>
-                <FaTrash className='text-red-500 text-xl cursor-pointer hover:scale-105 transition-all' onClick={()=> setDeleteDialog(true)} />
+                <FaTrash className='text-red-500 text-xl cursor-pointer hover:scale-105 transition-all'  onClick={() => deleteSongById(song._id)}  />
             </div>
         </div>
     );
