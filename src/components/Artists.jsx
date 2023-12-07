@@ -2,6 +2,7 @@ import artistsAPI from '@/apis/artists.api';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaArrowRight, FaPlusCircle } from 'react-icons/fa';
+import { FaMinusCircle } from 'react-icons/fa';
 
 const Artists = () => {
     
@@ -51,6 +52,19 @@ const Artist = ({ artist }) => {
         const random = Math.floor(Math.random() * 60);
         return `https://i.pravatar.cc/45?img=${random}`;
     }
+    const deleteArtistById = async (artistId) => {
+        await artistsAPI.deleteArtistById(artistId)
+        .then(response => {
+            console.log(response);
+            window.location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+      
+      };
+    
 
     return (
         <div className='flex items-center gap-4 hover:scale-105 transition-all cursor-pointer' onClick={showArtist}>
@@ -59,6 +73,9 @@ const Artist = ({ artist }) => {
             <div className='py-1 px-3 rounded-md shadow-lg bg-blue-500 flex'>
                 <span className='font-semibold text-lg'>{artist.name} </span>
                 <span className='uppercase font-bold text-lg'>{artist.lastName} </span>
+            </div>
+            <div>
+                <FaMinusCircle className='text-red-500 text-xl cursor-pointer hover:scale-105 transition-all' onClick={() => deleteArtistById(artist._id)} />
             </div>
         </div>
     );
