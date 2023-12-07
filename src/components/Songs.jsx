@@ -82,7 +82,6 @@ const Song = ({ song }) => {
     return () => {
       audio.pause()
     }
-<<<<<<< HEAD
   }, [playing])
 
   return (
@@ -119,47 +118,6 @@ const Song = ({ song }) => {
       </div>
     </div>
   )
-=======
-    const deleteSongById = async (songId) => {
-        console.log("Songid :",songId);
-        await songsAPI.deleteSongById(songId)
-        .then(response => {
-            console.log(response);
-            window.location.reload();
-        })
-        .catch(error => {
-            console.log(error);
-        });
-
-      
-      };
-    useEffect(() => {
-        if(!playing) return;
-
-        const audio = new Audio(song.url);
-        if(playing) audio.play();
-        else audio.pause();
-
-        return () => {
-            audio.pause();
-        }
-    }, [playing]);
-
-    
-
-    return (
-        <div className='flex gap-3 items-center justify-between cursor-pointer w-full'>
-            <div className='flex gap-3 items-center'>
-                {playing? <FaPause className='text-2xl text-blue-300' onClick={()=>setPlaying(false)} /> : <FaPlay className='text-2xl text-blue-300' onClick={()=>setPlaying(true)} />}
-                <img className='rounded-md' width={50} src={song.coverImage} alt={song.title}  loading='lazy' />
-                <h2 className='text-lg font-bold'>{song.title}</h2> by <h2 className='text-sm font-bold'>{song.artist?.name} {song.artist?.lastName} </h2>
-            </div>
-            <div>
-                <FaTrash className='text-red-500 text-xl cursor-pointer hover:scale-105 transition-all'  onClick={() => deleteSongById(song._id)}  />
-            </div>
-        </div>
-    );
->>>>>>> b00001f47fdebc15803c3c3bd9ef99295152455f
 }
 
 const Modal = ({ setShowModal }) => {
