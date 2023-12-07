@@ -56,6 +56,13 @@ const playlistsAPI = {
                 console.log(error);
             });
         },
+        getNumberOfPlaylists: () => {
+            return axios.get(`${API_URL}/countNumberOfPlaylists`)
+            .then(response => response.data)
+            .catch(error => {
+                console.log(error);
+            });
+        }
     
     
 }
