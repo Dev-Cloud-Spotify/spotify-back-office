@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FcApproval, FcHeadset, FcMusic, FcStatistics } from 'react-icons/fc';
+import { RiPlayListFill } from "react-icons/ri";
 import Statistics from './Statistics';
 
 const Dashboard = () => {
@@ -11,6 +12,7 @@ const Dashboard = () => {
         {name: 'Songs', path: '/dashboard/songs', icon: <FcMusic size={40} />, active: true},
         {name: 'Artists', path: '/dashboard/artists', icon: <FcApproval size={40} />, active: true},
         {name: 'Albums', path: '/dashboard/albums', icon: <FcHeadset size={40} />, active: true},
+        {name: 'Playlists', path: '/dashboard/playlists', icon: <RiPlayListFill size={40} />, active: true},
     ];
 
     return (
