@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaArrowRight, FaPlusCircle } from 'react-icons/fa';
 import { FaMinusCircle } from 'react-icons/fa';
+import { ArtistModalsEdit } from './ArtistModal';
 
 const Artists = () => {
     
     const [artists, setArtists] = useState([]);
     const [showModal, setShowModal] = useState(false);
-
     useEffect(() => {
         fetchArtists();
     }, []);
@@ -47,7 +47,10 @@ const Artist = ({ artist }) => {
     const showArtist = () => {
         console.log(artist);
     }
-
+    const [showEditModal, setShowEditModal] = useState(false);
+    const handleEditModal = () => {
+        setShowEditModal(!showEditModal);
+    };
     const getRandomImage = () => {
         const random = Math.floor(Math.random() * 60);
         return `https://i.pravatar.cc/45?img=${random}`;
@@ -69,11 +72,12 @@ const Artist = ({ artist }) => {
     return (
         <div className='flex items-center gap-4 hover:scale-105 transition-all cursor-pointer' onClick={showArtist}>
             {/* <FaArrowRight className='text-2xl text-blue-300' /> */}
-            <img src={getRandomImage()} alt='' className='rounded-full ' />
-            <div className='py-1 px-3 rounded-md shadow-lg bg-blue-500 flex'>
+            <img src={artist.artistImage || getRandomImage()} alt='' className='rounded-full w-12 h-12' />
+            <div className='py-1 px-3 rounded-md shadow-lg bg-blue-500 flex' selectedArtist={artist} onClick={handleEditModal}>
                 <span className='font-semibold text-lg'>{artist.name} </span>
                 <span className='uppercase font-bold text-lg'>{artist.lastName} </span>
             </div>
+            {showEditModal && <ArtistModalsEdit selectedArtist={artist} closeModal={handleEditModal} />}
             <div>
                 <FaMinusCircle className='text-red-500 text-xl cursor-pointer hover:scale-105 transition-all' onClick={() => deleteArtistById(artist._id)} />
             </div>
@@ -85,6 +89,7 @@ const Modal = ({ setShowModal }) => {
     const [artist, setArtist] = useState({
         name: '',
         lastName: '',
+        artistImage: '',
     });
 
     const handleChange = (event) => {
@@ -96,7 +101,7 @@ const Modal = ({ setShowModal }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if(!artist.name || !artist.lastName) return alert('Please fill all the fields');
+        if(!artist.name || !artist.lastName || !artist.artistImage) return alert('Please fill all the fields');
         await artistsAPI.createArtist(artist)
         .then(response => {
             setShowModal(false);
@@ -115,6 +120,7 @@ const Modal = ({ setShowModal }) => {
                 <form onSubmit={handleSubmit} className='flex flex-col gap-4 text-black'>
                     <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='name' placeholder='Name' value={artist.name} onChange={handleChange} />
                     <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='lastName' placeholder='Last name' value={artist.lastName} onChange={handleChange} />
+                    <input className='py-1 px-3 rounded-md shadow-lg' type='text' name='artistImage' placeholder='url of artistImage' value={artist.artistImage} onChange={handleChange} />
                     <button className='py-1 px-3 rounded-md shadow-lg bg-blue-500 text-white font-bold' type='submit'>Create</button>
                 </form>
             </div>

@@ -4,13 +4,15 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaMinusCircle } from 'react-icons/fa';
 import { PlaylistModalsEdit, PlaylistModalsAddSongs } from './PlaylistModals';
+import Error from './utilities/Error';
 
 const PlaylistInfos = ({playlist, closeModal}) => {
     useEffect(() => {
-        console.log("playing infos", playlist);
+        console.log("playlist infos", playlist);
     }, []);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showAddSongsModal, setShowAddSongsModal] = useState(false);
+    const [error, setError] = useState(null);
     
     const handleEditModal = () => {
         setShowEditModal(!showEditModal);
@@ -41,6 +43,7 @@ const PlaylistInfos = ({playlist, closeModal}) => {
         })
         .catch(error => {
             console.log(error);
+            setError(error);
         });
     }
     const deletePlaylistById = async () => {
@@ -52,6 +55,7 @@ const PlaylistInfos = ({playlist, closeModal}) => {
         })
         .catch(error => {
             console.log(error);
+            setError(error);
         });
     }
     return (
@@ -73,7 +77,7 @@ const PlaylistInfos = ({playlist, closeModal}) => {
         <button className='bg-green-400 py-2 px-3 rounded-md shadow-xl cursor-pointer hover:opacity-75' onClick={handleAddSongsModal}> Add songs </button>
                      </div>
 
-                    {showEditModal && <PlaylistModalsEdit closeModal={handleEditModal} />}
+                    {showEditModal && <PlaylistModalsEdit selectedPlaylist={playlist} closeModal={handleEditModal} />}
                     {showAddSongsModal && <PlaylistModalsAddSongs playlistId={playlist._id} closeModal={handleAddSongsModal}/>}
                 </div>
 
@@ -86,6 +90,10 @@ const PlaylistInfos = ({playlist, closeModal}) => {
                         ))}
                     </div>
                 </div>
+                {error && (
+        // Afficher l'erreur en utilisant le composant Error
+        <Error message={error} />
+      )}
             </div>
         </div>
     );
