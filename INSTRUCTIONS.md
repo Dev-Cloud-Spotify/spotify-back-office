@@ -1,9 +1,9 @@
 - React
     - Presence d’un linter / prettier
     - Utilisez les dernières norme ES6
-    - Utilisez des techniques avancé de performance (UseMemo, useCallBack)
-    - avoir un système de retour utilisateur, notifier les succes/erreurs, faire un affichage en cas de non reponse de l’api, faire un loader durant les call API etc.
-    - avoir un système d'authentification (Jwt)
+  TODO:  - Utilisez des techniques avancé de performance (UseMemo, useCallBack)
+  TODO:  - avoir un système de retour utilisateur, notifier les succes/erreurs, faire un affichage en cas de non reponse de l’api, faire un loader durant les call API etc.
+  TODO:  - avoir un système d'authentification (Jwt)
 - le Backoffice comprendra:
     - une vue globale avec des statistique:
         - nombre de morceau sur la plateforme
@@ -12,13 +12,13 @@
     - Une vue pour gerer les sons
         - ajouts
         - suppression
-        - modifications des données
+    TODO:    - modifications des données
     - une vue pour gérer les albums
         - creation (Selection de sons a mettre dans l’album)
             - ajout d’une jaquette
-            - L’ordre des sons peux etre changer via un drag and drop
+        TODO:    - L’ordre des sons peux etre changer via un drag and drop
         - suppression
-        - modification
+    TODO:    - modification
             - titre et autre infos
             - jaquette
     - une vue pour gerer les artiste :
