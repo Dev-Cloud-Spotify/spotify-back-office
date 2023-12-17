@@ -11,6 +11,7 @@ const Albums = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedAlbum, setSelectedAlbum] = useState({});
     const [isModify, setIsModify] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
 
     useEffect(() => {
         fetchAlbums();

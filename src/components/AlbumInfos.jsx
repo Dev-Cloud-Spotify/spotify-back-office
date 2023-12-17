@@ -72,7 +72,7 @@ const AlbumInfos = ({album, closeModal}) => {
         <button className='bg-green-400 py-2 px-3 rounded-md shadow-xl cursor-pointer hover:opacity-75' onClick={handleAddSongsModal}> Add songs </button>
                      </div>
 
-                    {showEditModal && <AlbumModalsEdit closeModal={handleEditModal} />}
+                    {showEditModal && <AlbumModalsEdit selectedAlbum={album} closeModal={handleEditModal} />}
                     {showAddSongsModal && <AlbumModalsAddSongs albumId={album._id} closeModal={handleAddSongsModal}/>}
                 </div>
 

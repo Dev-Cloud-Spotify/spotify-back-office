@@ -3,12 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 import PlaylistInfos from './Playlistinfos';
 import { AiOutlineClose } from 'react-icons/ai';
+import Error from './utilities/Error';
 
 const Playlists = () => {
 
     const [playlists, setPlaylists] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedPlaylist, setSelectedPlaylist] = useState({});
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         console.log('fetching playlists')
@@ -22,8 +24,10 @@ const Playlists = () => {
         })
         .catch(error => {
             console.log(error);
+            setError(error);
         });
     };
+    if (!playlists?.length) return <p>Loading...</p>
 
     const handleShowModal = () => {
         setShowModal(true);
@@ -39,6 +43,10 @@ const Playlists = () => {
                 ))}
             </div>
             {showModal && <Modal setShowModal={setShowModal} selectedPlaylist={selectedPlaylist}/>}
+            {error && (
+        // Afficher l'erreur en utilisant le composant Error
+        <Error message={error} />
+      )}
         </div>
     );
 }
