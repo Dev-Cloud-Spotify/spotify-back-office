@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { FaPause, FaPlay, FaPlusCircle, FaTrash } from 'react-icons/fa'
 import { DefaultLoader } from './utilities/Loaders'
-
 import { FixedSizeList } from 'react-window'
 
 const Songs = () => {
@@ -124,7 +123,7 @@ const Modal = ({ setShowModal }) => {
   const [song, setSong] = useState({
     title: '',
     artist: '',
-    // duration: '',
+    duration: null,
     releaseDate: '',
     coverImage: '',
     audioFile: null,
@@ -196,10 +195,13 @@ const Modal = ({ setShowModal }) => {
     })
   }
 
+
   const handleSubmit = async (event) => {
     setLoader(true)
     event.preventDefault()
     const formData = new FormData()
+    
+    // formData.append('duration', song.duration)
     formData.append('title', song.title)
     formData.append('artist', song.artist)
     formData.append('releaseDate', song.releaseDate)
@@ -207,7 +209,9 @@ const Modal = ({ setShowModal }) => {
     formData.append('audioFile', song.audioFile)
     formData.append('album', song.album)
 
-    console.log(song)
+    
+    console.log('song', song)
+
     await songsAPI
       .createSong(formData)
       .then((response) => {
@@ -235,7 +239,12 @@ const Modal = ({ setShowModal }) => {
 
   return (
     <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center'>
-      <div className='w-[400px] bg-white p-10 rounded-md relative'>
+      <div className='w-[800px] bg-white p-10 rounded-md relative flex items-center gap-4'>
+        <div className='w-1/2'>
+          <img src={song?.coverImage} className='rounded-md object-cover' alt="" />
+        </div>
+
+        <div className='w-1/2'>
         <AiOutlineClose
           className='absolute top-2 right-2 text-2xl text-black cursor-pointer hover:scale-105 transition-all'
           onClick={() => setShowModal(false)}
@@ -310,6 +319,7 @@ const Modal = ({ setShowModal }) => {
 
           {loader && <DefaultLoader />}
         </form>
+      </div>
       </div>
     </div>
   )
