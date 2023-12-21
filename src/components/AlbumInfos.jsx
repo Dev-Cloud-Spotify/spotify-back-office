@@ -34,8 +34,7 @@ const AlbumInfos = ({album, closeModal}) => {
     const fetchAlbumSongs = async () => {
         await albumsAPI.getAlbumSongs(album._id)
         .then(response => {
-            console.log(response)
-            setAlbumSongs(response.album.songs);
+            setAlbumSongs(response);
         })
         .catch(error => {
             console.log(error);
@@ -58,7 +57,7 @@ const AlbumInfos = ({album, closeModal}) => {
                 <AiOutlineClose className='absolute text-xl top-2 right-2 cursor-pointer' onClick={() => closeModal()} />
                 <div className='flex justify-between gap-4'>
                     <div className='flex flex-col gap-1'>
-                        <img className='rounded-md' width={400} src={album.coverImage} alt={album.title}  loading='lazy' />
+                        <img className='rounded-md' width={400} src={album.coverImage} alt={album.title} loading='lazy' />
                         <h2 className='text-xl font-bold text-center'>{album.title}</h2>
                     </div>
                     <div className='flex flex-col gap-4'>
@@ -79,7 +78,7 @@ const AlbumInfos = ({album, closeModal}) => {
                 <div className='w-5/6 flex justify-start mx-auto mt-8'>
                     {albumSongs?.length === 0 && <h1 className='text-2xl font-bold text-center w-full'>No songs found</h1>}
                     <div className='w-full flex flex-wrap gap-4 justify-start'>
-                        {albumSongs.length >0 && albumSongs?.map((song) => (
+                        {albumSongs?.length >0 && albumSongs?.map((song) => (
                             <Song key={song._id} song={song} fetchAlbumSongs={fetchAlbumSongs} />
                         ))}
                     </div>
