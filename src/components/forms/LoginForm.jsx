@@ -2,11 +2,13 @@
 import React, { useState } from 'react';
 import { FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+import authAPI from '@/apis/auth.apis';
 
 import { RoundedBoutton } from '../utilities/Elements';
 
 const LoginForm = () => {
     const router = useRouter();
+    const [message, setMessage] = useState('');
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -22,12 +24,27 @@ const LoginForm = () => {
             [name]: value
         });
     }
-
-    const handleLogin = () => {
+    const handleLogin =  async(e) => {
+        e.preventDefault();
         console.log(formData);
-        router.push('/dashboard');
+        //login using the api
+     
+        await authAPI.login(formData).then(response => {
+                if (!response.token || !response.auth) {
+                    console.log(response.message);
+                    setMessage(response.message);
+                    return;
+                    }
+                localStorage.setItem('token', response.token);
+                router.push('/dashboard');
+            })
+            .catch(error => {
+                console.log(error)
+                setMessage(error.message);
+            });
+
     }
-    
+
 
     return (
         <div className='flex justify-center flex-col gap-4 w-[400px]'>
@@ -45,6 +62,10 @@ const LoginForm = () => {
                         (<FaEyeSlash className='absolute top-1/2 transform -translate-y-1/2 right-3 text-2xl text-gray-400' onClick={()=> setShowPassword(true)} />)
                     }
                 </div>
+                <div className='relative items-center'>
+                    <span className='text-red-500'>{message}</span>
+
+                </div>
             </div>
 
             <div className='mt-4'>
@@ -58,7 +79,7 @@ const LoginForm = () => {
                 </div>
 
                 {/* <button className='w-full py-3 bg-blue-600 text-black font-bold text-xl rounded-full'>REGISTER</button> */}
-                <RoundedBoutton className={'bg-blue-600'} disabled='true' handleClick={()=> router.push('/register')} text='REGISTER' />
+                <RoundedBoutton className={'bg-blue-600'} disabled handleClick={()=> router.push('/register')} text='REGISTER' />
             </div>
 
             
