@@ -1,5 +1,5 @@
 'use client';
-import Playlists from '@/components/PLaylists';
+import Playlists from '@/components/Playlists';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FcLeft } from 'react-icons/fc';

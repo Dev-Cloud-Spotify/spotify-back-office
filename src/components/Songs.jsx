@@ -48,7 +48,7 @@ const Songs = () => {
       {songs.length === 0 && (
         <h1 className='text-2xl font-bold'>No songs found</h1>
       )}
-      <div className='w-full flex flex-col gap-4 justify-center'>
+      <div className='w-full flex flex-col gap-4 justify-center items-center'>
         <FixedSizeList
           height={500}
           width={600}
@@ -66,11 +66,6 @@ const Songs = () => {
 
 const Song = ({ song }) => {
   const [playing, setPlaying] = useState(false)
-  const [deleteDialog, setDeleteDialog] = useState(false)
-
-  const showSong = () => {
-    console.log(song)
-  }
 
   useEffect(() => {
     if (!playing) return
@@ -82,6 +77,23 @@ const Song = ({ song }) => {
       audio.pause()
     }
   }, [playing])
+
+  const handleDelete = async () => {
+    const shouldDeleteSong = window.confirm(
+      `Are you sure you want to delete ${song.title}?`
+    )
+    if (!shouldDeleteSong) return
+    await songsAPI
+      .deleteSongById(song._id)
+      .then((response) => {
+        if (response.error) return alert(response.error)
+        window.location.reload()
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
 
   return (
     <div className='flex gap-3 items-center justify-between cursor-pointer w-full'>
@@ -112,7 +124,7 @@ const Song = ({ song }) => {
       <div>
         <FaTrash
           className='text-red-500 text-xl cursor-pointer hover:scale-105 transition-all'
-          onClick={() => setDeleteDialog(true)}
+          onClick={() => handleDelete(true)}
         />
       </div>
     </div>

@@ -26,16 +26,16 @@ const LoginForm = () => {
     }
     const handleLogin =  async(e) => {
         e.preventDefault();
-        console.log(formData);
         //login using the api
      
-        await authAPI.login(formData).then(response => {
-                if (!response.token || !response.auth) {
+        await authAPI.login(formData)
+        .then((response) => {
+                if (!response?.token || !response?.auth) {
                     console.log(response.message);
                     setMessage(response.message);
                     return;
                     }
-                localStorage.setItem('token', response.token);
+                localStorage.setItem('token', response?.token);
                 router.push('/dashboard');
             })
             .catch(error => {
