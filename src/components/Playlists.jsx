@@ -1,7 +1,7 @@
 import playlistsAPI from '@/apis/playlists.api';
 import React, { useEffect, useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
-import PlaylistInfos from './Playlistinfos';
+import PlaylistInfos from './PlaylistInfos';
 import { AiOutlineClose } from 'react-icons/ai';
 import Error from './utilities/Error';
 
