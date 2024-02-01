@@ -16,6 +16,10 @@ Lien de vos projets mis en prod :
 - Front : [spotify-front-end.thomas-jan.fr](http://spotify-front-end.thomas-jan.fr)
 - Back : [spotify-back-api.thomas-jan.fr](http://spotify-back-api.thomas-jan.fr)
 
+**Connexion au back-office**
+username : kerkeb
+mot de passe : admin
+
 **Demande 1 :**
 Si possible avoir une petite revu du code sur:
 - Les choses pas du tout conventionnelles
